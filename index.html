@@ -103,38 +103,8 @@
             left: 50%;
             transform: translate(-50%, -50%);
         }
-        
-        .container h2 {
-            margin-bottom: 20px;
-            font-size: 22px;
-        }
-        
-        .container input {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            text-align: center;
-        }
-        
-        .container button {
-            width: 100%;
-            padding: 10px;
-            border-radius: 8px;
-            border: none;
-            background: #4facfe;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        
-        .container button:hover {
-            background: #00c6ff;
-        }
 
-        #schedule-container {
+        #schedule-container, #messages-container {
             display: none;
             text-align: center;
         }
@@ -156,12 +126,13 @@
     </div>
 
     <div class="sidebar" id="sidebar">
-        <div class="logo">📚 منصة المدرسة</div>
+        <div class="logo" id="user-greeting">📚 منصة المدرسة</div>
         <ul class="menu">
             <li><a href="#" onclick="showContent('home')"><i class="fas fa-home"></i> الرئيسية</a></li>
             <li><a href="#" onclick="showContent('courses')"><i class="fas fa-book"></i> المواد الدراسية</a></li>
             <li><a href="#" onclick="showContent('assignments')"><i class="fas fa-pencil-alt"></i> الواجبات</a></li>
             <li><a href="#" onclick="showContent('schedule')"><i class="fas fa-calendar"></i> الجدول الدراسي</a></li>
+            <li><a href="#" onclick="showContent('messages')"><i class="fas fa-envelope"></i> الرسائل</a></li>
             <li><a href="#" onclick="showContent('settings')"><i class="fas fa-cog"></i> الإعدادات</a></li>
             <li><a href="#" style="color: red;" onclick="logout()"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</a></li>
         </ul>
@@ -171,26 +142,37 @@
     
     <div id="schedule-container">
         <h2>📅 الجدول الدراسي</h2>
-      <a href="https://cdn.discordapp.com/attachments/1265228181598769254/1339423611915735040/image.png?ex=67af53b2&is=67ae0232&hm=62fd608ee24aa27639b9d14c233459a1a4458998fcc94dd52d2b4c8da87710f4&">
-	<img src="https://cdn.discordapp.com/attachments/1265228181598769254/1339423611915735040/image.png?ex=67af53b2&is=67ae0232&hm=62fd608ee24aa27639b9d14c233459a1a4458998fcc94dd52d2b4c8da87710f4&">
-</a>
+        <img src="/mnt/data/Screenshot 2025-02-13 052718.png" alt="الجدول الدراسي">
+    </div>
+
+    <div id="messages-container">
+        <h2>📩 الرسائل</h2>
+        <p>🚀 لا توجد رسائل جديدة</p>
     </div>
     
     <script>
+        let users = {
+            "teacher": "4321",
+            "student1": "1234",
+            "student2": "5678"
+        };
+        
         function login() {
             let username = document.getElementById("username").value;
             let password = document.getElementById("password").value;
-            if (username === "teacher" && password === "4321") {
+            if (users[username] && users[username] === password) {
                 document.getElementById("login-container").style.display = "none";
                 document.getElementById("sidebar").classList.add("active");
+                document.getElementById("user-greeting").innerText = "مرحبًا، " + username + "!";
             } else {
                 alert("❌ اسم المستخدم أو كلمة المرور غير صحيحة!");
             }
         }
         
         function showContent(section) {
-            document.getElementById("content").style.display = section === "schedule" ? "none" : "flex";
+            document.getElementById("content").style.display = section === "schedule" || section === "messages" ? "none" : "flex";
             document.getElementById("schedule-container").style.display = section === "schedule" ? "block" : "none";
+            document.getElementById("messages-container").style.display = section === "messages" ? "block" : "none";
         }
         
         function logout() {
