@@ -27,11 +27,15 @@
             height: 100vh;
             background: #fff;
             box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-            display: flex;
+            display: none;
             flex-direction: column;
             position: fixed;
             left: 0;
             top: 0;
+        }
+        
+        .sidebar.active {
+            display: flex;
         }
         
         .sidebar .logo {
@@ -97,10 +101,6 @@
             left: 50%;
             transform: translate(-50%, -50%);
         }
-        
-        .container.hidden {
-            display: none;
-        }
     </style>
 </head>
 <body>
@@ -111,7 +111,7 @@
         <button onclick="login()">دخول</button>
     </div>
 
-    <div class="sidebar hidden" id="sidebar">
+    <div class="sidebar" id="sidebar">
         <div class="logo">📚 منصة المدرسة</div>
         <ul class="menu">
             <li><a href="#" onclick="showContent('home')"><i class="fas fa-home"></i> الرئيسية</a></li>
@@ -129,8 +129,8 @@
             let username = document.getElementById("username").value;
             let password = document.getElementById("password").value;
             if (username === "teacher" && password === "4321") {
-                document.getElementById("login-container").classList.add("hidden");
-                document.getElementById("sidebar").classList.remove("hidden");
+                document.getElementById("login-container").style.display = "none";
+                document.getElementById("sidebar").classList.add("active");
             } else {
                 alert("❌ اسم المستخدم أو كلمة المرور غير صحيحة!");
             }
@@ -150,8 +150,8 @@
         }
         
         function logout() {
-            document.getElementById("sidebar").classList.add("hidden");
-            document.getElementById("login-container").classList.remove("hidden");
+            document.getElementById("sidebar").classList.remove("active");
+            document.getElementById("login-container").style.display = "block";
         }
     </script>
     
