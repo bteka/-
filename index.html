@@ -20,8 +20,6 @@
             background: linear-gradient(to right, #4facfe, #00f2fe);
             height: 100vh;
             overflow: hidden;
-            justify-content: center;
-            align-items: center;
         }
         
         .container {
@@ -57,12 +55,6 @@
             border: 1px solid #ccc;
             text-align: center;
             font-size: 16px;
-        }
-        
-        .container input:focus {
-            border-color: #4facfe;
-            outline: none;
-            box-shadow: 0 0 10px rgba(79, 172, 254, 0.5);
         }
         
         .container button {
@@ -131,10 +123,17 @@
             background: #4facfe;
             color: white;
         }
-        
-        .menu a i {
-            margin-right: 10px;
+
+        .content {
+            flex: 1;
+            padding: 30px;
+            color: white;
+            font-size: 20px;
+            text-align: center;
+            margin-left: 250px;
+            display: none;
         }
+        
     </style>
 </head>
 <body>
@@ -158,6 +157,8 @@
         </ul>
     </div>
     
+    <div class="content" id="content">اختر قسمًا من القائمة الجانبية.</div>
+    
     <script>
         function login() {
             let username = document.getElementById("username").value;
@@ -165,10 +166,21 @@
             if (username && password) {
                 document.getElementById("login-container").style.display = "none";
                 document.getElementById("sidebar").classList.add("active");
+                document.getElementById("content").style.display = "block";
                 document.getElementById("user-greeting").innerText = "مرحبًا، " + username + "!";
             } else {
                 alert("❌ الرجاء إدخال اسم المستخدم وكلمة المرور!");
             }
+        }
+        
+        function showContent(section) {
+            document.getElementById("content").innerHTML = "🔹 تم فتح: " + section;
+        }
+
+        function logout() {
+            document.getElementById("sidebar").classList.remove("active");
+            document.getElementById("content").style.display = "none";
+            document.getElementById("login-container").style.display = "block";
         }
     </script>
     
