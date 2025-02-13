@@ -133,6 +133,18 @@
         .container button:hover {
             background: #00c6ff;
         }
+
+        #schedule-container {
+            display: none;
+            text-align: center;
+        }
+
+        #schedule-container img {
+            max-width: 90%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
     </style>
 </head>
 <body>
@@ -157,6 +169,11 @@
     
     <div class="content" id="content">اختر قسمًا من القائمة الجانبية.</div>
     
+    <div id="schedule-container">
+        <h2>📅 الجدول الدراسي</h2>
+        <img src="/mnt/data/Screenshot 2025-02-13 052718.png" alt="الجدول الدراسي">
+    </div>
+    
     <script>
         function login() {
             let username = document.getElementById("username").value;
@@ -170,18 +187,8 @@
         }
         
         function showContent(section) {
-            let content = document.getElementById("content");
-            if (section === "home") {
-                content.innerHTML = "🏡 مرحبًا بك في الصفحة الرئيسية!";
-            } else if (section === "courses") {
-                content.innerHTML = "📖 هنا تجد جميع المواد الدراسية.";
-            } else if (section === "assignments") {
-                content.innerHTML = "✏️ جميع الواجبات ستظهر هنا.";
-            } else if (section === "schedule") {
-                content.innerHTML = "📅 هنا يمكنك رؤية الجدول الدراسي.";
-            } else if (section === "settings") {
-                content.innerHTML = "⚙️ إعدادات الحساب.";
-            }
+            document.getElementById("content").style.display = section === "schedule" ? "none" : "flex";
+            document.getElementById("schedule-container").style.display = section === "schedule" ? "block" : "none";
         }
         
         function logout() {
