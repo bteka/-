@@ -97,6 +97,21 @@
             width: 380px;
             text-align: center;
         }
+        
+        #messages-container, #schedule-container {
+            display: none;
+        }
+        
+        #messages-container textarea {
+            width: 100%;
+            height: 100px;
+            margin-top: 10px;
+        }
+
+        #schedule-container img {
+            max-width: 100%;
+            border-radius: 10px;
+        }
     </style>
 </head>
 <body>
@@ -122,6 +137,20 @@
     
     <div class="content" id="content">اختر قسمًا من القائمة الجانبية.</div>
     
+    <div id="messages-container">
+        <h2>📩 الرسائل</h2>
+        <textarea id="message-box" placeholder="اكتب رسالتك..."></textarea>
+        <button onclick="sendMessage()">إرسال</button>
+        <div id="message-log"></div>
+    </div>
+
+    <div id="schedule-container">
+        <h2>📅 الجدول الدراسي</h2>
+      <a href="http://https://cdn.discordapp.com/attachments/1265228181598769254/1339423611915735040/image.png?ex=67af53b2&is=67ae0232&hm=62fd608ee24aa27639b9d14c233459a1a4458998fcc94dd52d2b4c8da87710f4&">
+	<img src="https://cdn.discordapp.com/attachments/1265228181598769254/1339423611915735040/image.png?ex=67af53b2&is=67ae0232&hm=62fd608ee24aa27639b9d14c233459a1a4458998fcc94dd52d2b4c8da87710f4&">
+</a>
+    </div>
+    
     <script>
         function login() {
             let username = document.getElementById("username").value;
@@ -137,13 +166,20 @@
         }
         
         function showContent(section) {
-            document.getElementById("content").innerHTML = "📌 تم فتح: " + section;
+            document.getElementById("content").style.display = section === "messages" || section === "schedule" ? "none" : "block";
+            document.getElementById("messages-container").style.display = section === "messages" ? "block" : "none";
+            document.getElementById("schedule-container").style.display = section === "schedule" ? "block" : "none";
         }
-        
-        function logout() {
-            document.getElementById("sidebar").classList.remove("active");
-            document.getElementById("content").style.display = "none";
-            document.getElementById("login-container").style.display = "block";
+
+        function sendMessage() {
+            let message = document.getElementById("message-box").value;
+            if (message.trim() !== "") {
+                let log = document.getElementById("message-log");
+                let newMessage = document.createElement("p");
+                newMessage.textContent = message;
+                log.appendChild(newMessage);
+                document.getElementById("message-box").value = "";
+            }
         }
     </script>
     
