@@ -1,234 +1,192 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نظام المدرسة</title>
-    <!-- رابط Font Awesome للرموز -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>منصة المدرسة</title>
     <style>
-        /* التصميم العام */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
         body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #6a11cb, #2575fc);
-            color: #fff;
+            background-color: #f4f4f4;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            margin: 0;
+            flex-direction: column;
         }
-
         .container {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            width: 90%;
-            max-width: 400px;
             text-align: center;
-            animation: fadeIn 1s ease-in-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        h2 {
-            margin-bottom: 20px;
-            font-size: 24px;
-            color: #fff;
-        }
-
-        input[type="text"],
-        input[type="password"] {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            border: none;
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.2);
-            color: #fff;
-            font-size: 16px;
-            outline: none;
-        }
-
-        input[type="text"]::placeholder,
-        input[type="password"]::placeholder {
-            color: rgba(255, 255, 255, 0.7);
-        }
-
-        input[type="submit"] {
-            width: 100%;
-            padding: 12px;
-            background: #28a745;
-            border: none;
-            border-radius: 8px;
-            color: #fff;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background 0.3s ease;
-        }
-
-        input[type="submit"]:hover {
-            background: #218838;
-        }
-
-        .menu {
-            display: none;
-            margin-top: 20px;
-        }
-
-        .menu ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .menu ul li {
-            margin: 15px 0;
-        }
-
-        .menu ul li a {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 12px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
-            color: #fff;
-            text-decoration: none;
-            font-size: 18px;
-            transition: background 0.3s ease, transform 0.3s ease;
-        }
-
-        .menu ul li a i {
-            margin-left: 10px;
-        }
-
-        .menu ul li a:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: translateX(10px);
-        }
-
-        .logout-button {
-            display: block;
-            width: 100%;
-            padding: 12px;
-            background: #dc3545;
-            border: none;
-            border-radius: 8px;
-            color: #fff;
-            font-size: 16px;
-            cursor: pointer;
-            margin-top: 20px;
-            transition: background 0.3s ease;
-        }
-
-        .logout-button:hover {
-            background: #c82333;
-        }
-
-        .content {
-            display: none;
-            margin-top: 20px;
-            background: rgba(255, 255, 255, 0.1);
+            background: white;
             padding: 20px;
-            border-radius: 8px;
-            animation: slideIn 0.5s ease-in-out;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            display: none; /* إخفاء جميع النوافذ عند البدء */
         }
-
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateX(-20px); }
-            to { opacity: 1; transform: translateX(0); }
+        .dashboard {
+            width: 80%;
+            max-width: 600px;
         }
-
-        .content h2 {
-            color: #fff;
-            font-size: 22px;
+        h2 {
             margin-bottom: 15px;
         }
-
-        .content p {
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 16px;
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #218838;
+        }
+        .menu {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+        .menu button {
+            width: 30%;
+            background: #007bff;
+        }
+        .menu button:hover {
+            background: #0056b3;
+        }
+        .content {
+            margin-top: 20px;
+            text-align: right;
+        }
+        #teacher-section {
+            display: none;
+            margin-top: 20px;
+            text-align: right;
+        }
+        .active {
+            display: block !important; /* إجبار ظهور العنصر */
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- نموذج تسجيل الدخول -->
-        <div id="loginForm">
-            <h2>تسجيل الدخول</h2>
-            <input type="text" id="username" placeholder="اسم المستخدم" required>
-            <input type="password" id="password" placeholder="كلمة المرور" required>
-            <input type="submit" value="تسجيل الدخول" onclick="login()">
+
+    <!-- اختيار نوع تسجيل الدخول -->
+    <div class="container active" id="role-selection">
+        <h2>اختر نوع الدخول</h2>
+        <button onclick="showLogin('student')">👨‍🎓 تسجيل دخول طالب</button>
+        <button onclick="showLogin('teacher')">👨‍🏫 تسجيل دخول مدرس</button>
+    </div>
+
+    <!-- شاشة تسجيل الدخول للطلاب -->
+    <div class="container" id="student-login">
+        <h2>تسجيل دخول الطالب</h2>
+        <input type="text" id="student-username" placeholder="اسم المستخدم" required>
+        <input type="password" id="student-password" placeholder="كلمة المرور" required>
+        <button onclick="login('student')">دخول</button>
+    </div>
+
+    <!-- شاشة تسجيل الدخول للمدرسين -->
+    <div class="container" id="teacher-login">
+        <h2>تسجيل دخول المدرس</h2>
+        <input type="text" id="teacher-username" placeholder="اسم المستخدم" required>
+        <input type="password" id="teacher-password" placeholder="كلمة المرور" required>
+        <button onclick="login('teacher')">دخول</button>
+    </div>
+
+    <!-- لوحة التحكم -->
+    <div class="container dashboard" id="dashboard">
+        <h2 id="welcome-message">مرحبًا في المنصة المدرسية</h2>
+        <div class="menu">
+            <button onclick="showSection('home')">🏠 الرئيسية</button>
+            <button onclick="showSection('courses')">📚 المواد</button>
+            <button onclick="showSection('assignments')">✏️ الواجبات</button>
+        </div>
+        <div class="content" id="content">
+            <h3>📢 الإعلانات</h3>
+            <p>مرحبًا بك في المنصة! تابع آخر الأخبار هنا.</p>
         </div>
 
-        <!-- القائمة -->
-        <div id="menu" class="menu">
-            <ul>
-                <li><a href="#" onclick="showContent('lessons')"><i class="fas fa-calendar-alt"></i> جدول الدروس</a></li>
-                <li><a href="#" onclick="showContent('homework')"><i class="fas fa-book"></i> الواجبات</a></li>
-                <li><a href="#" onclick="showContent('class1')"><i class="fas fa-users"></i> الصف الأول</a></li>
-                <li><a href="#" onclick="showContent('class2')"><i class="fas fa-users"></i> الصف الثاني</a></li>
-            </ul>
-            <button class="logout-button" onclick="logout()">تسجيل الخروج</button>
+        <!-- قسم المدرسين لإضافة واجبات -->
+        <div id="teacher-section">
+            <h3>➕ إضافة واجب جديد</h3>
+            <input type="text" id="new-assignment" placeholder="أدخل نص الواجب">
+            <button onclick="addAssignment()">إضافة</button>
         </div>
 
-        <body>
-            <div class="container">
-                <!-- تسجيل الدخول للطلاب -->
-                <div class="login-form active" id="studentLoginForm">
-                    <h2>تسجيل الدخول للطلاب</h2>
-                    <div class="input-group">
-                        <input type="text" id="studentUsername" placeholder="اسم المستخدم">
-                    </div>
-                    <div class="input-group">
-                        <input type="password" id="studentPassword" placeholder="كلمة المرور">
-                    </div>
-                    <button onclick="studentLogin()">تسجيل الدخول</button>
-                    <div class="role-switch" onclick="switchToTeacherLogin()">التسجيل كمدرس؟</div>
-                </div>
+        <button style="background: red; margin-top: 15px;" onclick="logout()">تسجيل الخروج</button>
+    </div>
 
     <script>
-        // دالة تسجيل الدخول
-        function login() {
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
+        let role = "";
 
-            // تحقق بسيط من بيانات الدخول
-            if (username === "طالب" && password === "1234") {
-                document.getElementById('loginForm').style.display = 'none';
-                document.getElementById('menu').style.display = 'block';
+        function showLogin(userRole) {
+            document.getElementById("role-selection").classList.remove("active");
+            document.getElementById(userRole + "-login").classList.add("active");
+        }
+
+        function login(userRole) {
+            let username = document.getElementById(userRole + "-username").value;
+            let password = document.getElementById(userRole + "-password").value;
+
+            if (userRole === "student" && username === "student" && password === "1234") {
+                role = "student";
+                setupDashboard();
+            } else if (userRole === "teacher" && username === "teacher" && password === "4321") {
+                role = "teacher";
+                setupDashboard();
             } else {
-                alert("اسم المستخدم أو كلمة المرور غير صحيحة!");
+                alert("❌ اسم المستخدم أو كلمة المرور غير صحيحة!");
             }
         }
 
-        // دالة تسجيل الخروج
+        function setupDashboard() {
+            document.getElementById("student-login").classList.remove("active");
+            document.getElementById("teacher-login").classList.remove("active");
+            document.getElementById("dashboard").classList.add("active");
+
+            document.getElementById("welcome-message").innerText =
+                role === "student" ? "👨‍🎓 مرحبًا أيها الطالب" : "👨‍🏫 مرحبًا أيها المدرس";
+
+            document.getElementById("teacher-section").style.display =
+                role === "teacher" ? "block" : "none";
+
+            showSection("home");
+        }
+
         function logout() {
-            document.getElementById('loginForm').style.display = 'block';
-            document.getElementById('menu').style.display = 'none';
-            hideAllContent();
-            document.getElementById('username').value = '';
-            document.getElementById('password').value = '';
+            document.getElementById("dashboard").classList.remove("active");
+            document.getElementById("role-selection").classList.add("active");
         }
 
-        // دالة لإظهار المحتوى المحدد
-        function showContent(contentId) {
-            hideAllContent();
-            document.getElementById(contentId).style.display = 'block';
+        function showSection(section) {
+            let content = document.getElementById("content");
+
+            if (section === "home") {
+                content.innerHTML = "<h3>📢 الإعلانات</h3><p>مرحبًا بك في المنصة! تابع آخر الأخبار هنا.</p>";
+            } else if (section === "courses") {
+                content.innerHTML = "<h3>📚 المواد الدراسية</h3><ul><li>الرياضيات</li><li>العلوم</li><li>اللغة العربية</li><li>التاريخ</li></ul>";
+            } else if (section === "assignments") {
+                content.innerHTML = "<h3>✏️ الواجبات</h3><ul id='assignments-list'><li>لا توجد واجبات مضافة بعد.</li></ul>";
+            }
         }
 
-        // دالة لإخفاء جميع المحتويات
-        function hideAllContent() {
-            const contents = document.querySelectorAll('.content');
-            contents.forEach(content => {
-                content.style.display = 'none';
-            });
+        function addAssignment() {
+            let assignmentText = document.getElementById("new-assignment").value;
+            if (assignmentText) {
+                document.getElementById("assignments-list").innerHTML += `<li>${assignmentText}</li>`;
+                document.getElementById("new-assignment").value = "";
+            }
         }
     </script>
+
 </body>
 </html>
