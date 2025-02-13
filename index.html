@@ -4,217 +4,123 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>منصة المدرسة</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700&display=swap');
-
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Cairo', sans-serif;
         }
-
+        
         body {
-            background: linear-gradient(to right, #4facfe, #00f2fe);
             display: flex;
-            justify-content: center;
-            align-items: center;
+            background: linear-gradient(to right, #4facfe, #00f2fe);
             height: 100vh;
+            overflow: hidden;
+        }
+        
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            background: #fff;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
             flex-direction: column;
-            transition: all 0.5s ease-in-out;
+            transition: width 0.3s ease-in-out;
         }
-
-        .container {
-            background: white;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            width: 350px;
+        
+        .sidebar .logo {
             text-align: center;
-            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
-        }
-
-        h2 {
-            color: #333;
+            padding: 20px;
+            font-size: 22px;
             font-weight: bold;
-            margin-bottom: 15px;
-        }
-
-        input, button {
-            width: 100%;
-            padding: 12px;
-            margin-top: 10px;
-            border-radius: 8px;
-            border: none;
-            outline: none;
-            font-size: 16px;
-        }
-
-        input {
-            border: 1px solid #ccc;
-            transition: all 0.3s ease-in-out;
-        }
-
-        input:focus {
-            border-color: #4facfe;
-            box-shadow: 0 0 5px rgba(79, 172, 254, 0.5);
-        }
-
-        button {
             background: #4facfe;
             color: white;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease-in-out;
         }
-
-        button:hover {
-            background: #00c6ff;
-            transform: scale(1.05);
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        .dashboard {
-            display: none;
-            width: 400px;
-            background: white;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-
+        
         .menu {
+            flex: 1;
+            padding: 15px;
+        }
+        
+        .menu li {
+            list-style: none;
+            margin: 15px 0;
+        }
+        
+        .menu a {
+            text-decoration: none;
+            color: #333;
             display: flex;
-            justify-content: space-around;
-            margin-top: 20px;
+            align-items: center;
+            padding: 12px;
+            border-radius: 8px;
+            transition: 0.3s;
         }
-
-        .menu button {
-            background: #007bff;
-            transition: all 0.3s ease-in-out;
+        
+        .menu a:hover {
+            background: #4facfe;
+            color: white;
         }
-
-        .menu button:hover {
-            background: #0056b3;
+        
+        .menu a i {
+            margin-right: 10px;
         }
-
+        
         .content {
-            margin-top: 20px;
-            text-align: right;
+            flex: 1;
+            padding: 30px;
+            color: white;
+            font-size: 20px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-
-        #teacher-section {
-            display: none;
-            margin-top: 20px;
-            text-align: right;
-        }
-
     </style>
 </head>
 <body>
-
-    <!-- شاشة اختيار نوع الدخول -->
-    <div class="container" id="role-selection">
-        <h2>اختر نوع الدخول</h2>
-        <button onclick="showLogin('student')">👨‍🎓 تسجيل دخول طالب</button>
-        <button onclick="showLogin('teacher')">👨‍🏫 تسجيل دخول مدرس</button>
+    
+    <!-- الشريط الجانبي -->
+    <div class="sidebar">
+        <div class="logo">📚 منصة المدرسة</div>
+        <ul class="menu">
+            <li><a href="#" onclick="showContent('home')"><i class="fas fa-home"></i> الرئيسية</a></li>
+            <li><a href="#" onclick="showContent('courses')"><i class="fas fa-book"></i> المواد الدراسية</a></li>
+            <li><a href="#" onclick="showContent('assignments')"><i class="fas fa-pencil-alt"></i> الواجبات</a></li>
+            <li><a href="#" onclick="showContent('messages')"><i class="fas fa-envelope"></i> الرسائل</a></li>
+            <li><a href="#" onclick="showContent('settings')"><i class="fas fa-cog"></i> الإعدادات</a></li>
+            <li><a href="#" style="color: red;" onclick="logout()"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</a></li>
+        </ul>
     </div>
-
-    <!-- شاشة تسجيل الدخول للطالب -->
-    <div class="container hidden" id="student-login">
-        <h2>تسجيل دخول الطالب</h2>
-        <input type="text" id="student-username" placeholder="اسم المستخدم">
-        <input type="password" id="student-password" placeholder="كلمة المرور">
-        <button onclick="login('student')">دخول</button>
-        <button onclick="goBack()">⬅ العودة</button>
-    </div>
-
-    <!-- شاشة تسجيل الدخول للمدرس -->
-    <div class="container hidden" id="teacher-login">
-        <h2>تسجيل دخول المدرس</h2>
-        <input type="text" id="teacher-username" placeholder="اسم المستخدم">
-        <input type="password" id="teacher-password" placeholder="كلمة المرور">
-        <button onclick="login('teacher')">دخول</button>
-        <button onclick="goBack()">⬅ العودة</button>
-    </div>
-
-    <!-- لوحة التحكم -->
-    <div class="dashboard" id="dashboard">
-        <h2 id="welcome-message">مرحبًا في المنصة المدرسية</h2>
-        <div class="menu">
-            <button onclick="showSection('home')">🏠 الرئيسية</button>
-            <button onclick="showSection('courses')">📚 المواد</button>
-            <button onclick="showSection('assignments')">✏️ الواجبات</button>
-        </div>
-        <div class="content" id="content">
-            <h3>📢 الإعلانات</h3>
-            <p>مرحبًا بك في المنصة! تابع آخر الأخبار هنا.</p>
-        </div>
-
-        <!-- قسم المدرسين لإضافة واجبات -->
-        <div id="teacher-section">
-            <h3>➕ إضافة واجب جديد</h3>
-            <input type="text" id="new-assignment" placeholder="أدخل نص الواجب">
-            <button onclick="addAssignment()">إضافة</button>
-        </div>
-
-        <button style="background: red; margin-top: 15px;" onclick="logout()">تسجيل الخروج</button>
-    </div>
-
+    
+    <!-- محتوى الصفحة -->
+    <div class="content" id="content">اختر قسمًا من القائمة الجانبية.</div>
+    
     <script>
-        let assignments = JSON.parse(localStorage.getItem("assignments")) || [];
-
-        function showLogin(userRole) {
-            document.getElementById("role-selection").classList.add("hidden");
-            document.getElementById(userRole + "-login").classList.remove("hidden");
-        }
-
-        function goBack() {
-            document.getElementById("role-selection").classList.remove("hidden");
-            document.getElementById("student-login").classList.add("hidden");
-            document.getElementById("teacher-login").classList.add("hidden");
-        }
-
-        function login(userRole) {
-            if (userRole === "student") {
-                setupDashboard("👨‍🎓 مرحبًا أيها الطالب", false);
-            } else if (userRole === "teacher") {
-                setupDashboard("👨‍🏫 مرحبًا أيها المدرس", true);
+        function showContent(section) {
+            let content = document.getElementById("content");
+            if (section === "home") {
+                content.innerHTML = "🏡 مرحبًا بك في الصفحة الرئيسية!";
+            } else if (section === "courses") {
+                content.innerHTML = "📖 هنا تجد جميع المواد الدراسية.";
+            } else if (section === "assignments") {
+                content.innerHTML = "✏️ جميع الواجبات ستظهر هنا.";
+            } else if (section === "messages") {
+                content.innerHTML = "📩 لا توجد رسائل جديدة.";
+            } else if (section === "settings") {
+                content.innerHTML = "⚙️ إعدادات الحساب.";
             }
         }
-
-        function setupDashboard(welcomeMessage, isTeacher) {
-            document.querySelectorAll(".container").forEach(container => container.classList.add("hidden"));
-            document.getElementById("dashboard").style.display = "block";
-            document.getElementById("welcome-message").innerText = welcomeMessage;
-            document.getElementById("teacher-section").style.display = isTeacher ? "block" : "none";
-            showSection("assignments");
-        }
-
+        
         function logout() {
-            document.getElementById("dashboard").style.display = "none";
-            document.getElementById("role-selection").classList.remove("hidden");
-        }
-
-        function showSection(section) {
-            if (section === "assignments") {
-                document.getElementById("content").innerHTML = `<h3>✏️ الواجبات</h3><ul>${assignments.map(a => `<li>${a}</li>`).join("")}</ul>`;
-            }
-        }
-
-        function addAssignment() {
-            let assignmentText = document.getElementById("new-assignment").value;
-            if (assignmentText.trim()) {
-                assignments.push(assignmentText);
-                localStorage.setItem("assignments", JSON.stringify(assignments));
-                showSection("assignments");
-            }
+            alert("تم تسجيل الخروج بنجاح!");
+            window.location.reload();
         }
     </script>
-
+    
 </body>
 </html>
