@@ -32,7 +32,6 @@
             width: 350px;
             text-align: center;
             transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
-            opacity: 1;
         }
 
         h2 {
@@ -86,18 +85,6 @@
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             text-align: center;
-            animation: fadeIn 0.5s ease-in-out;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
         }
 
         .menu {
@@ -108,6 +95,7 @@
 
         .menu button {
             background: #007bff;
+            transition: all 0.3s ease-in-out;
         }
 
         .menu button:hover {
@@ -178,6 +166,8 @@
     </div>
 
     <script>
+        let assignments = JSON.parse(localStorage.getItem("assignments")) || [];
+
         function showLogin(userRole) {
             document.getElementById("role-selection").classList.add("hidden");
             document.getElementById(userRole + "-login").classList.remove("hidden");
@@ -190,15 +180,10 @@
         }
 
         function login(userRole) {
-            let username = document.getElementById(userRole + "-username").value;
-            let password = document.getElementById(userRole + "-password").value;
-
-            if (userRole === "student" && username === "student" && password === "1234") {
+            if (userRole === "student") {
                 setupDashboard("👨‍🎓 مرحبًا أيها الطالب", false);
-            } else if (userRole === "teacher" && username === "teacher" && password === "4321") {
+            } else if (userRole === "teacher") {
                 setupDashboard("👨‍🏫 مرحبًا أيها المدرس", true);
-            } else {
-                alert("❌ اسم المستخدم أو كلمة المرور غير صحيحة!");
             }
         }
 
@@ -207,11 +192,27 @@
             document.getElementById("dashboard").style.display = "block";
             document.getElementById("welcome-message").innerText = welcomeMessage;
             document.getElementById("teacher-section").style.display = isTeacher ? "block" : "none";
+            showSection("assignments");
         }
 
         function logout() {
             document.getElementById("dashboard").style.display = "none";
             document.getElementById("role-selection").classList.remove("hidden");
+        }
+
+        function showSection(section) {
+            if (section === "assignments") {
+                document.getElementById("content").innerHTML = `<h3>✏️ الواجبات</h3><ul>${assignments.map(a => `<li>${a}</li>`).join("")}</ul>`;
+            }
+        }
+
+        function addAssignment() {
+            let assignmentText = document.getElementById("new-assignment").value;
+            if (assignmentText.trim()) {
+                assignments.push(assignmentText);
+                localStorage.setItem("assignments", JSON.stringify(assignments));
+                showSection("assignments");
+            }
         }
     </script>
 
