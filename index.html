@@ -26,7 +26,7 @@
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             width: 300px;
-            display: none; /* إخفاء جميع النوافذ عند البدء */
+            display: none;
         }
         .dashboard {
             width: 80%;
@@ -73,7 +73,7 @@
             text-align: right;
         }
         .active {
-            display: block !important; /* إجبار ظهور العنصر */
+            display: block !important;
         }
     </style>
 </head>
@@ -127,7 +127,7 @@
 
     <script>
         let role = "";
-        let assignments = []; // قائمة الواجبات المشتركة
+        let assignments = JSON.parse(localStorage.getItem("assignments")) || [];
 
         function showLogin(userRole) {
             document.getElementById("role-selection").classList.remove("active");
@@ -184,6 +184,7 @@
             let assignmentText = document.getElementById("new-assignment").value;
             if (assignmentText.trim() !== "") {
                 assignments.push(assignmentText);
+                localStorage.setItem("assignments", JSON.stringify(assignments));
                 document.getElementById("new-assignment").value = "";
                 updateAssignments();
             }
