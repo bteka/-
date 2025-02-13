@@ -26,23 +26,13 @@
 
         .container {
             background: white;
-            padding: 20px;
+            padding: 25px;
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             width: 350px;
             text-align: center;
-            animation: fadeIn 1s ease-in-out;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+            opacity: 1;
         }
 
         h2 {
@@ -84,6 +74,32 @@
             transform: scale(1.05);
         }
 
+        .hidden {
+            display: none;
+        }
+
+        .dashboard {
+            display: none;
+            width: 400px;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         .menu {
             display: flex;
             justify-content: space-around;
@@ -92,16 +108,10 @@
 
         .menu button {
             background: #007bff;
-            transition: all 0.3s ease-in-out;
         }
 
         .menu button:hover {
             background: #0056b3;
-        }
-
-        .dashboard {
-            display: none;
-            width: 400px;
         }
 
         .content {
@@ -109,52 +119,43 @@
             text-align: right;
         }
 
-        .active {
-            display: block !important;
-        }
-
         #teacher-section {
             display: none;
             margin-top: 20px;
             text-align: right;
-            animation: slideUp 0.5s ease-in-out;
         }
 
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
     </style>
 </head>
 <body>
 
-    <div class="container active" id="role-selection">
+    <!-- شاشة اختيار نوع الدخول -->
+    <div class="container" id="role-selection">
         <h2>اختر نوع الدخول</h2>
         <button onclick="showLogin('student')">👨‍🎓 تسجيل دخول طالب</button>
         <button onclick="showLogin('teacher')">👨‍🏫 تسجيل دخول مدرس</button>
     </div>
 
-    <div class="container" id="student-login">
+    <!-- شاشة تسجيل الدخول للطالب -->
+    <div class="container hidden" id="student-login">
         <h2>تسجيل دخول الطالب</h2>
         <input type="text" id="student-username" placeholder="اسم المستخدم">
         <input type="password" id="student-password" placeholder="كلمة المرور">
         <button onclick="login('student')">دخول</button>
+        <button onclick="goBack()">⬅ العودة</button>
     </div>
 
-    <div class="container" id="teacher-login">
+    <!-- شاشة تسجيل الدخول للمدرس -->
+    <div class="container hidden" id="teacher-login">
         <h2>تسجيل دخول المدرس</h2>
         <input type="text" id="teacher-username" placeholder="اسم المستخدم">
         <input type="password" id="teacher-password" placeholder="كلمة المرور">
         <button onclick="login('teacher')">دخول</button>
+        <button onclick="goBack()">⬅ العودة</button>
     </div>
 
-    <div class="container dashboard" id="dashboard">
+    <!-- لوحة التحكم -->
+    <div class="dashboard" id="dashboard">
         <h2 id="welcome-message">مرحبًا في المنصة المدرسية</h2>
         <div class="menu">
             <button onclick="showSection('home')">🏠 الرئيسية</button>
@@ -166,6 +167,7 @@
             <p>مرحبًا بك في المنصة! تابع آخر الأخبار هنا.</p>
         </div>
 
+        <!-- قسم المدرسين لإضافة واجبات -->
         <div id="teacher-section">
             <h3>➕ إضافة واجب جديد</h3>
             <input type="text" id="new-assignment" placeholder="أدخل نص الواجب">
@@ -176,12 +178,15 @@
     </div>
 
     <script>
-        let role = "";
-        let assignments = JSON.parse(localStorage.getItem("assignments")) || [];
-
         function showLogin(userRole) {
-            document.getElementById("role-selection").classList.remove("active");
-            document.getElementById(userRole + "-login").classList.add("active");
+            document.getElementById("role-selection").classList.add("hidden");
+            document.getElementById(userRole + "-login").classList.remove("hidden");
+        }
+
+        function goBack() {
+            document.getElementById("role-selection").classList.remove("hidden");
+            document.getElementById("student-login").classList.add("hidden");
+            document.getElementById("teacher-login").classList.add("hidden");
         }
 
         function login(userRole) {
@@ -189,39 +194,24 @@
             let password = document.getElementById(userRole + "-password").value;
 
             if (userRole === "student" && username === "student" && password === "1234") {
-                role = "student";
-                setupDashboard();
+                setupDashboard("👨‍🎓 مرحبًا أيها الطالب", false);
             } else if (userRole === "teacher" && username === "teacher" && password === "4321") {
-                role = "teacher";
-                setupDashboard();
+                setupDashboard("👨‍🏫 مرحبًا أيها المدرس", true);
             } else {
                 alert("❌ اسم المستخدم أو كلمة المرور غير صحيحة!");
             }
         }
 
-        function setupDashboard() {
-            document.getElementById("student-login").classList.remove("active");
-            document.getElementById("teacher-login").classList.remove("active");
-            document.getElementById("dashboard").classList.add("active");
-
-            document.getElementById("welcome-message").innerText =
-                role === "student" ? "👨‍🎓 مرحبًا أيها الطالب" : "👨‍🏫 مرحبًا أيها المدرس";
-
-            document.getElementById("teacher-section").style.display =
-                role === "teacher" ? "block" : "none";
-
-            showSection("assignments");
+        function setupDashboard(welcomeMessage, isTeacher) {
+            document.querySelectorAll(".container").forEach(container => container.classList.add("hidden"));
+            document.getElementById("dashboard").style.display = "block";
+            document.getElementById("welcome-message").innerText = welcomeMessage;
+            document.getElementById("teacher-section").style.display = isTeacher ? "block" : "none";
         }
 
         function logout() {
-            document.getElementById("dashboard").classList.remove("active");
-            document.getElementById("role-selection").classList.add("active");
-        }
-
-        function showSection(section) {
-            document.getElementById("content").innerHTML = section === "assignments"
-                ? "<h3>✏️ الواجبات</h3><ul>" + assignments.map(a => `<li>${a}</li>`).join("") + "</ul>"
-                : "<h3>📢 الإعلانات</h3><p>مرحبًا بك في المنصة! تابع آخر الأخبار هنا.</p>";
+            document.getElementById("dashboard").style.display = "none";
+            document.getElementById("role-selection").classList.remove("hidden");
         }
     </script>
 
