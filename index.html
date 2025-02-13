@@ -127,6 +127,7 @@
 
     <script>
         let role = "";
+        let assignments = []; // قائمة الواجبات المشتركة
 
         function showLogin(userRole) {
             document.getElementById("role-selection").classList.remove("active");
@@ -175,15 +176,28 @@
             } else if (section === "courses") {
                 content.innerHTML = "<h3>📚 المواد الدراسية</h3><ul><li>الرياضيات</li><li>العلوم</li><li>اللغة العربية</li><li>التاريخ</li></ul>";
             } else if (section === "assignments") {
-                content.innerHTML = "<h3>✏️ الواجبات</h3><ul id='assignments-list'><li>لا توجد واجبات مضافة بعد.</li></ul>";
+                updateAssignments();
             }
         }
 
         function addAssignment() {
             let assignmentText = document.getElementById("new-assignment").value;
-            if (assignmentText) {
-                document.getElementById("assignments-list").innerHTML += `<li>${assignmentText}</li>`;
+            if (assignmentText.trim() !== "") {
+                assignments.push(assignmentText);
                 document.getElementById("new-assignment").value = "";
+                updateAssignments();
+            }
+        }
+
+        function updateAssignments() {
+            let content = document.getElementById("content");
+            content.innerHTML = "<h3>✏️ الواجبات</h3><ul id='assignments-list'></ul>";
+
+            let assignmentsList = document.getElementById("assignments-list");
+            if (assignments.length === 0) {
+                assignmentsList.innerHTML = "<li>لا توجد واجبات مضافة بعد.</li>";
+            } else {
+                assignmentsList.innerHTML = assignments.map(a => `<li>${a}</li>`).join("");
             }
         }
     </script>
