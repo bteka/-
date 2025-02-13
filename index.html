@@ -22,69 +22,116 @@
             overflow: hidden;
         }
         
+        .sidebar {
+            width: 260px;
+            height: 100vh;
+            background: #fff;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            left: 0;
+            top: 0;
+            padding-top: 20px;
+        }
+        
+        .sidebar .logo {
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
+            padding: 20px;
+            background: #4facfe;
+            color: white;
+        }
+        
+        .menu {
+            flex: 1;
+            padding: 15px;
+        }
+        
+        .menu li {
+            list-style: none;
+            margin: 15px 0;
+        }
+        
+        .menu a {
+            text-decoration: none;
+            color: #333;
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border-radius: 8px;
+            transition: 0.3s;
+            font-size: 18px;
+        }
+        
+        .menu a:hover {
+            background: #4facfe;
+            color: white;
+        }
+        
+        .menu a i {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+        
+        .content {
+            flex: 1;
+            padding: 30px;
+            color: white;
+            font-size: 22px;
+            text-align: center;
+            margin-left: 260px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: calc(100% - 260px);
+        }
+        
         .container {
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.95);
             padding: 30px;
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            width: 400px;
+            width: 380px;
             text-align: center;
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            animation: fadeIn 0.5s ease-in-out;
         }
         
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translate(-50%, -60%); }
-            to { opacity: 1; transform: translate(-50%, -50%); }
+        .container h2 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #333;
         }
         
-        .messages-container {
-            display: none;
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            width: 60%;
-            height: 60vh;
-            overflow-y: auto;
-            margin: auto;
-        }
-        
-        .message-box {
+        .container input {
             width: 100%;
-            margin-top: 15px;
-        }
-        
-        .message-box input {
-            width: 80%;
-            padding: 10px;
-            border-radius: 5px;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 8px;
             border: 1px solid #ccc;
+            text-align: center;
+            font-size: 16px;
         }
         
-        .message-box button {
-            width: 18%;
-            padding: 10px;
-            border-radius: 5px;
+        .container button {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
             border: none;
             background: #4facfe;
             color: white;
+            font-size: 18px;
             cursor: pointer;
+            transition: 0.3s;
         }
         
-        .messages-list {
-            list-style: none;
-            padding: 0;
-        }
-        
-        .messages-list li {
-            background: #e3f2fd;
-            padding: 10px;
-            border-radius: 8px;
-            margin-bottom: 10px;
+        .container button:hover {
+            background: #00c6ff;
+            transform: scale(1.05);
         }
     </style>
 </head>
@@ -111,15 +158,6 @@
     
     <div class="content" id="content">اختر قسمًا من القائمة الجانبية.</div>
     
-    <div class="messages-container" id="messages-container">
-        <h2>📩 الرسائل</h2>
-        <ul class="messages-list" id="messages-list"></ul>
-        <div class="message-box">
-            <input type="text" id="message-input" placeholder="اكتب رسالتك...">
-            <button onclick="sendMessage()">إرسال</button>
-        </div>
-    </div>
-    
     <script>
         function login() {
             let username = document.getElementById("username").value;
@@ -132,30 +170,6 @@
             } else {
                 alert("❌ الرجاء إدخال اسم المستخدم وكلمة المرور!");
             }
-        }
-        
-        function showContent(section) {
-            document.getElementById("content").style.display = section === "messages" ? "none" : "block";
-            document.getElementById("messages-container").style.display = section === "messages" ? "block" : "none";
-        }
-        
-        function sendMessage() {
-            let messageInput = document.getElementById("message-input");
-            let messageText = messageInput.value;
-            if (messageText.trim() !== "") {
-                let messageList = document.getElementById("messages-list");
-                let newMessage = document.createElement("li");
-                newMessage.textContent = messageText;
-                messageList.appendChild(newMessage);
-                messageInput.value = "";
-            }
-        }
-        
-        function logout() {
-            document.getElementById("sidebar").classList.remove("active");
-            document.getElementById("content").style.display = "none";
-            document.getElementById("messages-container").style.display = "none";
-            document.getElementById("login-container").style.display = "block";
         }
     </script>
     
