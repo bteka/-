@@ -20,8 +20,6 @@
             background: linear-gradient(to right, #4facfe, #00f2fe);
             height: 100vh;
             overflow: hidden;
-            align-items: center;
-            justify-content: center;
         }
         
         .sidebar {
@@ -87,7 +85,8 @@
             color: white;
             font-size: 22px;
             text-align: center;
-            display: none;
+            margin-left: 260px;
+            display: block;
         }
         
         .container {
@@ -97,39 +96,6 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             width: 380px;
             text-align: center;
-        }
-        
-        .container h2 {
-            margin-bottom: 20px;
-            font-size: 24px;
-            color: #333;
-        }
-        
-        .container input {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            text-align: center;
-            font-size: 16px;
-        }
-        
-        .container button {
-            width: 100%;
-            padding: 12px;
-            border-radius: 8px;
-            border: none;
-            background: #4facfe;
-            color: white;
-            font-size: 18px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        
-        .container button:hover {
-            background: #00c6ff;
-            transform: scale(1.05);
         }
     </style>
 </head>
@@ -168,6 +134,16 @@
             } else {
                 alert("❌ الرجاء إدخال اسم المستخدم وكلمة المرور!");
             }
+        }
+        
+        function showContent(section) {
+            document.getElementById("content").innerHTML = "📌 تم فتح: " + section;
+        }
+        
+        function logout() {
+            document.getElementById("sidebar").classList.remove("active");
+            document.getElementById("content").style.display = "none";
+            document.getElementById("login-container").style.display = "block";
         }
     </script>
     
