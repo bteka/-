@@ -100,17 +100,34 @@
         
         #messages-container, #schedule-container {
             display: none;
+            text-align: center;
+            margin-top: 20px;
         }
         
         #messages-container textarea {
-            width: 100%;
+            width: 80%;
             height: 100px;
             margin-top: 10px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            padding: 10px;
         }
-
+        
+        #messages-container button {
+            padding: 10px 20px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 8px;
+            background: #4facfe;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
         #schedule-container img {
-            max-width: 100%;
+            max-width: 90%;
             border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
     </style>
 </head>
@@ -146,31 +163,16 @@
 
     <div id="schedule-container">
         <h2>📅 الجدول الدراسي</h2>
-      <a href="http://https://cdn.discordapp.com/attachments/1265228181598769254/1339423611915735040/image.png?ex=67af53b2&is=67ae0232&hm=62fd608ee24aa27639b9d14c233459a1a4458998fcc94dd52d2b4c8da87710f4&">
-	<img src="https://cdn.discordapp.com/attachments/1265228181598769254/1339423611915735040/image.png?ex=67af53b2&is=67ae0232&hm=62fd608ee24aa27639b9d14c233459a1a4458998fcc94dd52d2b4c8da87710f4&">
-</a>
+        <img src="/mnt/data/Screenshot 2025-02-13 052718.png" alt="الجدول الدراسي">
     </div>
     
     <script>
-        function login() {
-            let username = document.getElementById("username").value;
-            let password = document.getElementById("password").value;
-            if (username && password) {
-                document.getElementById("login-container").style.display = "none";
-                document.getElementById("sidebar").classList.add("active");
-                document.getElementById("content").style.display = "block";
-                document.getElementById("user-greeting").innerText = "مرحبًا، " + username + "!";
-            } else {
-                alert("❌ الرجاء إدخال اسم المستخدم وكلمة المرور!");
-            }
-        }
-        
         function showContent(section) {
-            document.getElementById("content").style.display = section === "messages" || section === "schedule" ? "none" : "block";
+            document.getElementById("content").style.display = "none";
             document.getElementById("messages-container").style.display = section === "messages" ? "block" : "none";
             document.getElementById("schedule-container").style.display = section === "schedule" ? "block" : "none";
         }
-
+        
         function sendMessage() {
             let message = document.getElementById("message-box").value;
             if (message.trim() !== "") {
