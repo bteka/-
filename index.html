@@ -20,6 +20,8 @@
             background: linear-gradient(to right, #4facfe, #00f2fe);
             height: 100vh;
             overflow: hidden;
+            justify-content: center;
+            align-items: center;
         }
         
         .sidebar {
@@ -86,7 +88,7 @@
             font-size: 22px;
             text-align: center;
             margin-left: 260px;
-            display: block;
+            display: none;
         }
         
         .container {
@@ -154,33 +156,17 @@
     
     <div class="content" id="content">اختر قسمًا من القائمة الجانبية.</div>
     
-    <div id="messages-container">
-        <h2>📩 الرسائل</h2>
-        <textarea id="message-box" placeholder="اكتب رسالتك..."></textarea>
-        <button onclick="sendMessage()">إرسال</button>
-        <div id="message-log"></div>
-    </div>
-
-    <div id="schedule-container">
-        <h2>📅 الجدول الدراسي</h2>
-        <img src="/mnt/data/Screenshot 2025-02-13 052718.png" alt="الجدول الدراسي">
-    </div>
-    
     <script>
-        function showContent(section) {
-            document.getElementById("content").style.display = "none";
-            document.getElementById("messages-container").style.display = section === "messages" ? "block" : "none";
-            document.getElementById("schedule-container").style.display = section === "schedule" ? "block" : "none";
-        }
-        
-        function sendMessage() {
-            let message = document.getElementById("message-box").value;
-            if (message.trim() !== "") {
-                let log = document.getElementById("message-log");
-                let newMessage = document.createElement("p");
-                newMessage.textContent = message;
-                log.appendChild(newMessage);
-                document.getElementById("message-box").value = "";
+        function login() {
+            let username = document.getElementById("username").value;
+            let password = document.getElementById("password").value;
+            if (username.trim() !== "" && password.trim() !== "") {
+                document.getElementById("login-container").style.display = "none";
+                document.getElementById("sidebar").classList.add("active");
+                document.getElementById("content").style.display = "block";
+                document.getElementById("user-greeting").innerText = "مرحبًا، " + username + "!";
+            } else {
+                alert("❌ الرجاء إدخال اسم المستخدم وكلمة المرور!");
             }
         }
     </script>
